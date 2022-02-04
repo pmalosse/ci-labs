@@ -98,8 +98,12 @@ pipeline {
                     }
                     steps {
                         sh ' mvn pmd:pmd'
-                        // using pmd plugin
-                        step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml'])
+                    // using pmd plugin
+                    }
+                    post {
+                        always {
+                            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+                        }
                     }
                 }
                 stage('Findbugs') {
