@@ -34,6 +34,9 @@ pipeline {
           }
           steps {
             sh ' mvn checkstyle:checkstyle'
+            step {
+             recordIssues enabledForFailure: true, tool: checkStyle()   
+           }
           }
         }
 
