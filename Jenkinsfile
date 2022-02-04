@@ -6,7 +6,6 @@ pipeline {
                 checkout scm
             }
         }
-
         stage('Build') {
             parallel {
                 stage('Compile') {
@@ -33,19 +32,33 @@ pipeline {
                     steps {
                         sh ' mvn checkstyle:checkstyle'
                     }
+                    post {
+                        always {
+                            recordIssues enabledForFailure: true, tool: checkStyle()
+                        }
+                    }
                 }
             }
         }
-    }
-    post {
-        always {
-           // junit testResults: '**/target/surefire-reports/TEST-*.xml'
-
-            //  recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
-            recordIssues enabledForFailure: true, tool: checkStyle()
-        //   recordIssues enabledForFailure: true, tool: spotBugs()
-        //   recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
-        //   recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+        stage('Unit Tests') {
+            when {
+                anyOf { branch 'master'; branch 'develop' }
+            }
+            agent {
+                docker {
+                    image 'maven:3.6.0-jdk-8-alpine'
+                    args '-v /root/.m2/repository:/root/.m2/repository'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh ' mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+            }
         }
     }
 }
