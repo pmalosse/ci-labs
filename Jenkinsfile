@@ -34,12 +34,11 @@ pipeline {
           }
           steps {
             sh ' mvn checkstyle:checkstyle'
-            step (
-             recordIssues enabledForFailure: true, tool: checkStyle()   
-           )
+          }
+          steps {
+            recordIssues enabledForFailure: true, tool: checkStyle()
           }
         }
-
       }
     }
 
