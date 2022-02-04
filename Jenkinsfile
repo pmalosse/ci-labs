@@ -98,7 +98,6 @@ pipeline {
                     }
                     steps {
                         sh ' mvn pmd:pmd'
-                    // using pmd plugin
                     }
                     post {
                         always {
@@ -116,8 +115,11 @@ pipeline {
                     }
                     steps {
                         sh ' mvn findbugs:findbugs'
-                        // using findbugs plugin
-                        findbugs pattern: '**/target/findbugsXml.xml'
+                    }
+                    post {
+                        always {
+                            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+                        }
                     }
                 }
             }
