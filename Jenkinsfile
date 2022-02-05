@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        SONARQUBE_URL = 'http://192.168.1.120:9000/'
+        SONARQUBE_PORT = '9000'
+    }
     stages {
         stage('SCM') {
             steps {
@@ -138,6 +142,18 @@ pipeline {
                         always {
                             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
                         }
+                    }
+                }
+                stage('SonarQube') {
+                    agent {
+                        docker {
+                            image 'maven:3.6.0-jdk-8-alpine'
+                            args '-v /root/.m2/repository:/root/.m2/repository'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     }
                 }
             }
