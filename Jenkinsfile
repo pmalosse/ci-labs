@@ -135,7 +135,9 @@ pipeline {
                     }
                     post {
                         always {
-                            recordIssues enabledForFailure: true, tools: [javaDoc()]
+                            //recordIssues enabledForFailure: true, tools: [javaDoc()]
+                            publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
+
                         }
                     }
                 }
