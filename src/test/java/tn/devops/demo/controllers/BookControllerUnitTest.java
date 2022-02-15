@@ -80,7 +80,7 @@ public class BookControllerUnitTest {
 	    	      .contentType(MediaType.APPLICATION_JSON))
 	    	      .andExpect(status().isOk())
 	    	      .andExpect(jsonPath("$.*", hasSize(9)))
-	    	      .andExpect(jsonPath("$.id", is(2)))
+	    	      .andExpect(jsonPath("$.id", is(1)))
 	    	      .andExpect(jsonPath("$.title", is("serviceTest")));
     	  
     }
