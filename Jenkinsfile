@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        SONARQUBE_URL = 'http://localhost'
-        SONARQUBE_PORT = '9010'
+        SONARQUBE_URL = 'http://172.18.0.2'
+        SONARQUBE_PORT = '9000'
     }
     stages {
         stage('SCM') {
