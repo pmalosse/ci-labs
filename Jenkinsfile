@@ -6,12 +6,12 @@ pipeline {
         // This can be http or https
         NEXUS_PROTOCOL = 'http'
         // Where your Nexus is running. In my case:
-        NEXUS_URL = 'localhost:8081'
+        NEXUS_URL = '172.18.0.3:8081'
         // Repository where we will upload the artifact
         NEXUS_REPOSITORY = 'maven-snapshots'
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = 'nexus-credentials'
-        SONARQUBE_URL = 'http://192.168.1.120'
+        SONARQUBE_URL = '172.18.0.4'
         SONARQUBE_PORT = '9000'
     }
     stages {
