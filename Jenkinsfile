@@ -151,6 +151,7 @@ pipeline {
                         }
                     }
                 }
+                /*
                 stage('SonarQube') {
                     agent {
                        docker {
@@ -163,6 +164,7 @@ pipeline {
                          sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     }
                 }
+                */
             }
         }
         stage('Deploy Artifact To Nexus') {
